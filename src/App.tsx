@@ -14,15 +14,16 @@ function App() {
   const [newElement, setNewElement] = useState<Element>("");
   const [elementCount, setElementCount] = useState<number>(Math.floor(Math.random() * (7 - 4 + 1) + 4));
   const [relation, setRelation] = useState<[Element, Element][]>([]);
+  
 
-  const handleAddElement = () => {
+  const handleAgregaElemento = () => {
     if (newElement !== "") {
       setElements([...elements, newElement]);
       setNewElement("");
     }
   };
 
-  const handleGenerateElements = () => {
+  const handleGeneraElementos = () => {
     let generatedElements: Element[] = [];
 
     if (generationType === "manual" && elements.length < elementCount) {
@@ -49,7 +50,7 @@ function App() {
     setElements(generatedElements);
   };
 
-  const formatElements = (elements: Element[]) => {
+  const formateaElementos = (elements: Element[]) => {
     if (elements.length === 0) {
       return "{}";
     } else {
@@ -57,7 +58,7 @@ function App() {
     }
   };
 
-  const cartesianProduct = (set1: Element[], set2: Element[]) => {
+  const productoCartesiano = (set1: Element[], set2: Element[]) => {
     const result: [Element, Element][] = [];
     for (let i = 0; i < set1.length; i++) {
       for (let j = 0; j < set2.length; j++) {
@@ -67,7 +68,7 @@ function App() {
     return result;
   };
 
-  const formatCartesianProduct = (
+  const formateaProductoCartesiano = (
     set1: Element[],
     set2: Element[],
     product: [Element, Element][]
@@ -81,7 +82,7 @@ function App() {
     }
   };
    
-  const generateRelation = () => {
+  const generaRelacion = () => {
     const relationSet: [Element, Element][] = [];
   
     for (let i = 0; i < elements.length; i++) {
@@ -95,6 +96,17 @@ function App() {
     setRelation(relationSet);
   };
 
+  
+ const esReflexiva = (relation: Relation, elements: Element[]) => {
+    for (let i = 0; i < elements.length; i++) {
+      const element = elements[i];
+      const isInRelation = relation.some(([a, b]) => a === element && b === element);
+      if (!isInRelation) {
+        return false;
+      }
+    }
+    return true;
+  };
   
   
   return (
@@ -136,22 +148,22 @@ function App() {
               onChange={(e) => setNewElement(e.target.value as typeof newElement)}
             />
           </label>
-          <button onClick={handleAddElement}>Add</button>
+          <button onClick={handleAgregaElemento}>Add</button>
         </div>
       )}
 
       <div>
-        <button onClick={handleGenerateElements}>
+        <button onClick={handleGeneraElementos}>
           {generationType === "random" ? "Genera Conjunto" : "Update"}
         </button>
         
-  <button onClick={generateRelation}>Genera Relacion</button>
+  <button onClick={generaRelacion}>Genera Relacion</button>
       </div>
 
-      <div>{`A = ${formatElements(elements)}`}</div>
+      <div>{`A = ${formateaElementos(elements)}`}</div>
 
       {elements.length >= 2 && (
-        <div>{formatCartesianProduct(elements, elements, cartesianProduct(elements, elements))}</div>
+        <div>{formateaProductoCartesiano(elements, elements, productoCartesiano(elements, elements))}</div>
       )}
       {elements.length >= 2 && (
   <div>
@@ -164,6 +176,9 @@ function App() {
       .join(", ")}}`}
   </div>
 )}
+<div>
+</div><p>{esReflexiva(relation, elements) ? 'La relacion SI es Reflexiva' : 'La relacion NO es Reflexiva'}</p>
+
 
     </div>
     
