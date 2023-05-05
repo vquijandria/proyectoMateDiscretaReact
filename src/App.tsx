@@ -154,10 +154,10 @@ function App() {
 
       <div>
         <button onClick={handleGeneraElementos}>
-          {generationType === "random" ? "Genera Conjunto" : "Update"}
+          {generationType === "random" ? "Genera Conjunto": ""}
         </button>
         
-  <button onClick={generaRelacion}>Genera Relacion</button>
+  
       </div>
 
       <div>{`A = ${formateaElementos(elements)}`}</div>
@@ -167,7 +167,8 @@ function App() {
       )}
       {elements.length >= 2 && (
   <div>
-    
+    <br /><br />
+    <button onClick={generaRelacion}>Genera Relacion</button>
     <br />
     
     <br />
